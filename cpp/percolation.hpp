@@ -110,7 +110,7 @@ std::string make_output_filename(param::parameter &params) {
 
   std::ostringstream oss;
   oss << output_dir
-      << "/L" << L
+      << "/L" << std::setw(3) << std::setfill('0') << L
       << "_p" << std::setw(4) << std::setfill('0') << probability_id
       << "_s" << std::setw(3) << std::setfill('0') << seed
       << ".dat";
