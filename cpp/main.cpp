@@ -1,3 +1,4 @@
+#include "percolation.hpp"
 #include <cstdio>
 #include <iostream>
 #include <param.hpp>
@@ -17,4 +18,7 @@ int main(int argc, char **argv) {
               << filename << '\n';
     return 1;
   }
+  const int L = param.get<int>("L");
+  const int seed = param.get<int>("seed");
+  percolation::test(128);
 }

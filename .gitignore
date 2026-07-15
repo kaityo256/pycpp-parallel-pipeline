@@ -1,1 +1,4 @@
 cpp/percolation
+.venv
+*.yaml
+*.dat
