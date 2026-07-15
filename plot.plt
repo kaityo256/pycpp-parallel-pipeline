@@ -1,5 +1,5 @@
 set term pngcairo
-set output "L128.png"
+set output "fig/L128.png"
 
 set xlabel "Bond Probability"
 set ylabel "Peroclation Probability"

@@ -1,17 +1,18 @@
-# pycpp-parallel-pipeline
+# Python/C++ Parallel Simulation Pipeline
 
-A minimal example of an embarrassingly parallel simulation workflow using Python and C++.
+A minimal example of an embarrassingly parallel simulation workflow that uses Python for preparation and analysis, and C++ for the compute-intensive part.
+
+This repository uses bond percolation only as a compact example problem. The main purpose is to demonstrate a reusable Python–C++ workflow for preparing, running, and analyzing many independent jobs.
 
 This repository demonstrates the following pipeline:
 
 1. Read a YAML configuration file with Python.
 2. Generate many independent input files.
-3. Run a C++ bond-percolation simulation for each input.
+3. Run a C++ simulation program for each input.
 4. Distribute the simulations in parallel with `cps`.
 5. Collect the generated data files.
 6. Compute averages and standard errors with Python.
-
-Percolation is used only as a compact example problem. The main purpose of this repository is to demonstrate a Python–C++ workflow for running and analyzing many independent jobs.
+7. Plot the summarized result with gnuplot.
 
 ## Files
 
@@ -24,6 +25,8 @@ The `cps` and `cpp/param` directories are Git submodules.
 - `cpp/param`: parameter-file parser
 - `cps`: parallel command scheduler
 - `output`: generated input and result files
+- `plot.plt`: gnuplot script for plotting the summarized result
+- `fig/L128.png`: example plot generated from `output/L128.dat`
 
 ## Requirements
 
@@ -40,6 +43,7 @@ g++
 make
 mpic++
 mpirun
+gnuplot
 ```
 
 ### Python
@@ -56,7 +60,7 @@ The Python dependencies are:
 Clone the repository together with its submodules:
 
 ```console
-git clone --recursive <repository-url>
+git clone --recursive https://github.com/kaityo256/pycpp-parallel-pipeline.git
 cd pycpp-parallel-pipeline
 ```
 
@@ -282,6 +286,18 @@ The columns are:
 2. mean percolation probability
 3. standard error over independent seeds
 
+## Plot the result
+
+The summarized result can be plotted with gnuplot:
+
+```console
+gnuplot plot.plt
+```
+
+The provided `plot.plt` script reads `output/L128.dat` and writes the plot to `fig/L128.png`.
+
+![Percolation probability for L=128](fig/L128.png)
+
 ## Typical workflow
 
 The complete workflow using `uv` is:
@@ -306,6 +322,8 @@ python3 generate_inputs.py input.yaml
 mpirun -np 5 cps/cps cps/task.sh
 
 python3 analyze_results.py input.yaml
+
+gnuplot plot.plt
 ```
 
 The same workflow using the standard-library virtual environment starts with:
@@ -344,4 +362,3 @@ Review and test submodule updates before committing the changed references.
 ## License
 
 This project is distributed under the MIT License.
-
