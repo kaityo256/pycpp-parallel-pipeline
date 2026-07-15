@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <iostream>
 #include <param.hpp>
+#include <string>
 
 int main(int argc, char **argv) {
   if (argc != 2) {
@@ -18,7 +19,5 @@ int main(int argc, char **argv) {
               << filename << '\n';
     return 1;
   }
-  const int L = param.get<int>("L");
-  const int seed = param.get<int>("seed");
-  percolation::test(128);
+  percolation::run_task(param);
 }

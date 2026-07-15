@@ -2,3 +2,5 @@ cpp/percolation
 .venv
 *.yaml
 *.dat
+cps.log
+*.sh

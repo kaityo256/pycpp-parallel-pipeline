@@ -1,7 +1,10 @@
 #include <cstdio>
 #include <numeric>
+#include <param.hpp>
 #include <random>
+#include <sstream>
 #include <stdexcept>
+#include <string>
 #include <unordered_set>
 #include <vector>
 
@@ -92,6 +95,39 @@ double estimate_percolation_probability(
   }
 
   return static_cast<double>(num_percolated) / num_samples;
+}
+
+std::string make_output_filename(param::parameter &params) {
+  const int L = params.get<int>("L");
+  const int seed = params.get<int>("seed");
+  const double bond_probability =
+      params.get<double>("bond_probability");
+  const std::string output_dir =
+      params.get<std::string>("output_dir");
+
+  const int probability_id =
+      static_cast<int>(std::lround(bond_probability * 10000.0));
+
+  std::ostringstream oss;
+  oss << output_dir
+      << "/L" << L
+      << "_p" << std::setw(4) << std::setfill('0') << probability_id
+      << "_s" << std::setw(3) << std::setfill('0') << seed
+      << ".dat";
+
+  return oss.str();
+}
+
+void run_task(param::parameter &params) {
+  const int L = params.get<int>("L");
+  const int seed = params.get<int>("seed");
+  const int num_samples = params.get<int>("num_samples");
+  double bond_probability = params.get<double>("bond_probability");
+  std::string output_dir = params.get<std::string>("output_dir");
+  const std::string output_filename = make_output_filename(params);
+  double result = estimate_percolation_probability(L, bond_probability, seed, num_samples);
+  std::ofstream ofs(output_filename);
+  ofs << result << std::endl;
 }
 
 void test(int L) {

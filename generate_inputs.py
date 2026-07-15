@@ -3,8 +3,11 @@ import yaml
 import sys
 
 def generate_tasks(files):
-    for filename in files:
-        print(f"./cpp/percolation {filename}")
+    with open("task.sh","w") as f:
+        for filename in files:
+            f.write(f"./cpp/percolation {filename}\n")
+    print(f"Generated task.sh")
+
 
 def generate_inputs(config):
     L = int(config["L"])
@@ -13,7 +16,8 @@ def generate_inputs(config):
     num_points = int(config["num_points"])
     num_samples = int(config["num_samples"])
     num_seeds = int(config["num_seeds"])
-    output_directory = Path("output/input")
+    output_dir = config["output_dir"]
+    output_directory = Path(output_dir)
 
     output_directory.mkdir(parents=True, exist_ok=True)
     files = []
@@ -32,10 +36,11 @@ def generate_inputs(config):
                 "bond_probability": bond_probability,
                 "seed": seed,
                 "num_samples": num_samples,
+                "output_dir": output_dir
             }
 
             with filename.open("w", encoding="utf-8") as file:
-                yaml.safe_dump(parameters, file)
+                yaml.safe_dump(parameters, file, sort_keys=False)
             files.append(filename)
 
     print(f"Generated {len(files)} input files in {output_directory}")
