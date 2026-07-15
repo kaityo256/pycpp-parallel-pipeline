@@ -1,6 +1,6 @@
 cpp/percolation
 .venv
-*.yaml
+output/*.yaml
 *.dat
 cps.log
 *.sh
