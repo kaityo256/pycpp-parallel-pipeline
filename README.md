@@ -165,7 +165,7 @@ L: 128
 start: 0.45
 end: 0.55
 num_points: 100
-num_samples: 1000
+num_samples: 100
 num_seeds: 10
 output_dir: output
 ```
