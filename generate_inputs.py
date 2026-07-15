@@ -41,6 +41,7 @@ def generate_inputs(config):
 
             with filename.open("w", encoding="utf-8") as file:
                 yaml.safe_dump(parameters, file, sort_keys=False)
+            print(filename)
             files.append(filename)
 
     print(f"Generated {len(files)} input files in {output_directory}")
@@ -51,7 +52,6 @@ if __name__ == "__main__":
         print("Usage: python3 generate_inputs.py input.yaml")
         exit(1)
     config_file = sys.argv[1]
-    print(config_file)
     with open(config_file) as file:
         config = yaml.safe_load(file)
     generate_inputs(config)
